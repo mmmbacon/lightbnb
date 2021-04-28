@@ -17,13 +17,13 @@
       "columnNotNull": true,
       "relationship": true
     },
-    "database": "MySQL",
+    "database": "PostgreSQL",
     "databaseName": "",
-    "canvasType": "ERD",
+    "canvasType": "SQLDDL",
     "language": "GraphQL",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
-    "highlightTheme": "VS2015",
+    "highlightTheme": "MonokaiSublime",
     "setting": {
       "relationshipDataTypeSync": true,
       "columnOrder": [
@@ -140,7 +140,7 @@
           "active": false,
           "left": 106,
           "top": 556.8000072669985,
-          "zIndex": 250,
+          "zIndex": 1,
           "widthName": 60,
           "widthComment": 60
         },
@@ -523,7 +523,7 @@
           "active": false,
           "left": 722.8000104618079,
           "top": 459.62858018330166,
-          "zIndex": 413,
+          "zIndex": 4,
           "widthName": 60,
           "widthComment": 60
         },
@@ -653,7 +653,7 @@
           "active": false,
           "left": 544.800010461808,
           "top": 1036.2000087547303,
-          "zIndex": 384,
+          "zIndex": 3,
           "widthName": 73,
           "widthComment": 60
         },
@@ -783,7 +783,7 @@
           "active": false,
           "left": 54.80001046180803,
           "top": 822.2000087547303,
-          "zIndex": 377,
+          "zIndex": 2,
           "widthName": 101,
           "widthComment": 60
         },
