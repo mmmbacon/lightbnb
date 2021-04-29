@@ -20,8 +20,6 @@ const pool = new Pool({
  */
 const getUserWithEmail = function(email) {
 
-  console.log(email);
-
   const queryString = `
   SELECT *
   FROM users
@@ -42,8 +40,6 @@ exports.getUserWithEmail = getUserWithEmail;
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function(id) {
-  
-  console.log(id);
 
   const queryString = `
   SELECT *
@@ -117,13 +113,42 @@ exports.getAllReservations = getAllReservations;
  */
 const getAllProperties = (options, limit = 10) => {
   
-  const queryString = `
+  const parameters = [];
+
+  let queryString = `
   SELECT properties.*, avg(property_reviews.rating) as average_rating
   FROM properties
   JOIN property_reviews ON properties.id = property_reviews.property_id
-  GROUP BY properties.id
-  LIMIT $1`;
-  const parameters = [limit];
+  `;
+
+  if (options.city) {
+    parameters.push(`%${options.city}%`);
+    queryString += `${ parameters.length > 0 ? 'AND' : 'WHERE' } properties.city LIKE $${parameters.length} `;
+  }
+
+  if (options.owner_id) {
+    parameters.push(`${options.owner_id}`);
+    queryString += `${ parameters.length > 0 ? 'AND' : 'WHERE' } properties.owner_id = $${parameters.length} `;
+  }
+
+  if (options.minimum_price_per_night && options.maximum_price_per_night) {
+    parameters.push(`${options.minimum_price_per_night}`);
+    parameters.push(`${options.maximum_price_per_night}`);
+    queryString += `${ parameters.length > 0 ? 'AND' : 'WHERE' } properties.price_per_night >= $${parameters.length - 1} AND price_per_night <= $${parameters.length} `;
+  }
+
+  if (options.minimum_rating) {
+    parameters.push(`${options.minimum_rating}`);
+    queryString += `${ parameters.length > 0 ? 'AND' : 'WHERE' } property_reviews.rating >= $${parameters.length} `;
+  }
+  
+  parameters.push(limit);
+
+  queryString += `
+    GROUP BY properties.id
+    ORDER BY properties.cost_per_night
+    LIMIT $${parameters.length};
+  `;
 
   return pool
     .query(queryString, parameters)
